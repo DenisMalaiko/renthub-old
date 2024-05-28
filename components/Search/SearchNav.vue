@@ -2,19 +2,14 @@
   <section class="search">
     <v-container>
       <v-row>
-        <v-col cols="12 d-flex justify-center">
-          <h2>Find Your Item</h2>
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col cols="10">
           <v-row>
             <v-col cols="3">
               <v-combobox
-                v-model="searchForm.location"
+                v-model="searchForm.city"
                 :search-input.sync="searchQuery"
-                :items="places"
-                item-text="name"
+                :items="cities"
+                item-text="formatted_address"
                 item-value="formatted_address"
                 label="Where"
                 placeholder="Search city..."
@@ -34,7 +29,7 @@
 
       <v-row>
         <v-col cols="12">
-          <pre> {{ places }} </pre>
+          <pre>{{ searchForm }}</pre>
         </v-col>
       </v-row>
     </v-container>
@@ -46,7 +41,7 @@ import {reactive, ref, watch} from "vue";
 
 const loading = ref(false);
 const searchForm = reactive({
-  location: null,
+  city: null,
   item: null,
   startDate: null,
   endDate: null,
@@ -54,16 +49,16 @@ const searchForm = reactive({
 
 
 const searchQuery = ref('');
-let places: any = ref([]);
+let cities: any = ref([]);
 
-async function searchPlaces(placeName: any) {
-  const url = `http://localhost:8080/searchPlaces?placeName=${encodeURIComponent(placeName)}`;
+async function searchPlaces(city: string) {
+  const url = `http://localhost:8080/searchCity?city=${encodeURIComponent(city)}`;
 
   try {
     loading.value = true;
     const response = await fetch(url);
     const data = await response.json();
-    places.value = data.results;
+    cities.value = data.results;
     loading.value = false;
   } catch (error) {
     console.error('Помилка при пошуку місця:', error);
