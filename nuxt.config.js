@@ -16,7 +16,18 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {
+        src: `https://maps.googleapis.com/maps/api/js?key=AIzaSyB2MtFNFuSkMC4Sg3phkWCRQiCmmmvlUTw&libraries=places`,
+        async: true,
+        defer: true
+      }
     ]
+  },
+
+  env: {
+    GOOGLE_PLACES_API_KEY: 'AIzaSyB2MtFNFuSkMC4Sg3phkWCRQiCmmmvlUTw'
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -39,8 +50,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-  ],
+  modules: [],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
