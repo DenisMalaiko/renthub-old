@@ -1,6 +1,6 @@
 <template>
   <section class="search">
-    <v-container>
+    <v-container class="px-0">
       <v-row>
         <v-col cols="10">
           <v-row>
@@ -82,7 +82,7 @@
           </v-row>
         </v-col>
 
-        <v-col cols="2 d-flex align-center">
+        <v-col cols="2 d-flex align-center justify-end">
           <v-btn color="primary">
             Search
           </v-btn>
@@ -91,62 +91,14 @@
 
       <v-row>
         <v-col cols="12">
-          <pre>{{ searchForm }}</pre>
         </v-col>
       </v-row>
     </v-container>
   </section>
 </template>
 
-<script setup lang="ts">
-import {reactive, ref, watch} from "vue";
+<script setup>
+import { setupSearchComponent } from './SearchNav.ts';
 
-const loading = reactive({
-  city: false,
-  product: false
-});
-const today = ref(new Date().toISOString().substr(0, 10))
-
-const searchForm = reactive({
-  city: null,
-  product: null,
-  startDate: null,
-  endDate: null,
-});
-const menuStart = ref(false);
-const menuEnd = ref(false);
-
-
-const searchProductQuery = ref('');
-const products: any = ref([]);
-
-
-const searchCityQuery = ref('');
-let cities: any = ref([]);
-
-async function searchPlaces(city: string) {
-  const url = `http://localhost:8080/searchCity?city=${encodeURIComponent(city)}`;
-
-  try {
-    loading.city = true;
-    const response = await fetch(url);
-    const data = await response.json();
-    cities.value = data.results;
-    loading.city = false;
-  } catch (error) {
-    console.error('Помилка при пошуку місця:', error);
-    return [];
-  }
-}
-
-watch(searchCityQuery, (newValue) => {
-  if(newValue && newValue.length >= 2) {
-    searchPlaces(newValue);
-  }
-});
-
+const { loading, today, searchForm, menuStart, menuEnd, searchProductQuery, products, searchCityQuery, cities } = setupSearchComponent();
 </script>
-
-<style scoped>
-
-</style>

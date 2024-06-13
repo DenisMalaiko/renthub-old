@@ -50,6 +50,13 @@
               class="mb-2"
             ></v-text-field>
 
+            <v-text-field
+              v-model="signUpForm.repeatPassword"
+              :rules="rules.repeatPassword"
+              label="Repeat password"
+              class="mb-2"
+            ></v-text-field>
+
             <div class="d-flex align-center">
               <v-btn class="mr-5" type="submit">
                 Sign Up
@@ -61,13 +68,21 @@
               </span>
             </div>
           </v-form>
+
+          <pre class="mt-5">{{signUpForm}}</pre>
         </v-col>
       </v-row>
     </v-container>
   </section>
 </template>
 
-<script setup lang="ts">
+<script setup>
+import { setupRegister } from "./index.ts";
+
+const { signUpFormRef, signUpForm, rules } = setupRegister();
+</script>
+
+<!--<script setup lang="ts">
 import {reactive, ref, computed} from "vue";
 import {ValidationsRules} from "~/utils/validations-rules";
 import {User} from "~/models/User";
@@ -85,4 +100,4 @@ const rules = computed(() => {
     password: [ValidationsRules.required],
   }
 })
-</script>
+</script>-->

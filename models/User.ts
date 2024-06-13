@@ -5,6 +5,7 @@ export class User {
   country: string;
   city: string;
   password: string;
+  repeatPassword?: string;
 
   constructor() {
     this.name = "";
@@ -13,5 +14,6 @@ export class User {
     this.country = "";
     this.city = "";
     this.password = "";
+    this.repeatPassword = "";
   }
 }
