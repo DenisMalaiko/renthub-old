@@ -29,30 +29,41 @@
               class="mb-2"
             ></v-text-field>
 
-            <v-text-field
-              v-model="signUpForm.country"
-              :rules="rules.country"
-              label="Country"
-              class="mb-2"
-            ></v-text-field>
-
-            <v-text-field
+            <v-combobox
               v-model="signUpForm.city"
+              :search-input.sync="searchCityQuery"
+              :items="cities"
               :rules="rules.city"
+              item-text="formatted_address"
+              item-value="formatted_address"
               label="City"
+              :loading="loading.city"
               class="mb-2"
-            ></v-text-field>
+            />
 
-            <v-text-field
-              v-model="signUpForm.password"
-              :rules="rules.password"
-              label="Password"
-              class="mb-2"
-            ></v-text-field>
+            <div class="label-password mb-2">
+              <v-text-field
+                v-model="signUpForm.password"
+                :rules="rules.password"
+                :append-icon="password.isShowPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="password.isShowPassword ? 'text' : 'password'"
+                @click:append="password.isShowPassword = !password.isShowPassword"
+                label="Password"
+                validate-on-blur
+              ></v-text-field>
+
+              <v-progress-linear
+                :color="score.color"
+                :value="score.value"
+              ></v-progress-linear>
+            </div>
 
             <v-text-field
               v-model="signUpForm.repeatPassword"
-              :rules="rules.repeatPassword"
+              :rules="[rules.repeatPassword, (v) => rules.match(v, signUpForm.password)]"
+              :append-icon="password.isShowRepeatPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="password.isShowRepeatPassword ? 'text' : 'password'"
+              @click:append="password.isShowRepeatPassword = !password.isShowRepeatPassword"
               label="Repeat password"
               class="mb-2"
             ></v-text-field>
@@ -68,8 +79,6 @@
               </span>
             </div>
           </v-form>
-
-          <pre class="mt-5">{{signUpForm}}</pre>
         </v-col>
       </v-row>
     </v-container>
@@ -79,25 +88,7 @@
 <script setup>
 import { setupRegister } from "./index.ts";
 
-const { signUpFormRef, signUpForm, rules } = setupRegister();
+const { signUpFormRef, signUpForm, rules, searchCityQuery, cities, loading, password, score } = setupRegister();
 </script>
 
-<!--<script setup lang="ts">
-import {reactive, ref, computed} from "vue";
-import {ValidationsRules} from "~/utils/validations-rules";
-import {User} from "~/models/User";
-
-const signUpFormRef = ref();
-const signUpForm: User = reactive(new User());
-
-const rules = computed(() => {
-  return {
-    name: [ValidationsRules.required],
-    login: [ValidationsRules.required],
-    email: [ValidationsRules.required],
-    country: [ValidationsRules.required],
-    city: [ValidationsRules.required],
-    password: [ValidationsRules.required],
-  }
-})
-</script>-->
+<style src="./index.scss" lang="scss"></style>

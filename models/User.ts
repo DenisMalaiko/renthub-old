@@ -2,7 +2,6 @@ export class User {
   name: string;
   login: string;
   email: string;
-  country: string;
   city: string;
   password: string;
   repeatPassword?: string;
@@ -11,7 +10,6 @@ export class User {
     this.name = "";
     this.login = "";
     this.email = "";
-    this.country = "";
     this.city = "";
     this.password = "";
     this.repeatPassword = "";
