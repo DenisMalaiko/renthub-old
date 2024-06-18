@@ -66,7 +66,7 @@ export function setupRegister() {
       loading.city = true;
       const response = await fetch(url);
       const data = await response.json();
-      cities.value = data.results;
+      cities.value = data;
       loading.city = false;
     } catch (error) {
       console.error('Помилка при пошуку місця:', error);
@@ -78,6 +78,47 @@ export function setupRegister() {
     return rules.value.password.reduce((count, rule) => {
       return count + (rule(password) === true ? 1 : 0);
     }, 0);
+  }
+
+  async function createUser() {
+    const valid = signUpFormRef.value.validate();
+
+    if(!valid) {
+      return;
+    }
+
+    console.log("VALID")
+
+    const requestBody = {
+      query: `
+        mutation {
+          createUser(userInput: {
+            name: "${signUpForm.name}",
+            login: "${signUpForm.login}",
+            email: "${signUpForm.email}",
+            city: {
+              cityId: "${signUpForm.city.cityId}",
+              cityName: "${signUpForm.city.cityId}",
+              cityFullName: "${signUpForm.city.cityFullName}"
+            },
+            password: "${signUpForm.password}",
+          })
+        }
+      `
+    }
+
+    try {
+      await fetch('http://localhost:8080/graphql', {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+
+    } catch (err: any) {
+      console.log("ERROR ", err.message)
+    }
   }
 
   watch(searchCityQuery, (newValue) => {
@@ -94,6 +135,7 @@ export function setupRegister() {
     cities,
     loading,
     password,
-    score
+    score,
+    createUser
   }
 }

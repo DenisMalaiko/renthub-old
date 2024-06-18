@@ -6,7 +6,7 @@
 
           <h1 class="text-left mb-3">Sign Up</h1>
 
-          <v-form ref="signUpFormRef">
+          <v-form ref="signUpFormRef" @submit.prevent="createUser()">
 
             <v-text-field
               v-model="signUpForm.name"
@@ -34,8 +34,7 @@
               :search-input.sync="searchCityQuery"
               :items="cities"
               :rules="rules.city"
-              item-text="formatted_address"
-              item-value="formatted_address"
+              item-text="cityName"
               label="City"
               :loading="loading.city"
               class="mb-2"
@@ -81,6 +80,12 @@
           </v-form>
         </v-col>
       </v-row>
+
+      <v-row>
+        <v-col cols="12">
+          <pre>{{ signUpForm }}</pre>
+        </v-col>
+      </v-row>
     </v-container>
   </section>
 </template>
@@ -88,7 +93,7 @@
 <script setup>
 import { setupRegister } from "./index.ts";
 
-const { signUpFormRef, signUpForm, rules, searchCityQuery, cities, loading, password, score } = setupRegister();
+const { signUpFormRef, signUpForm, rules, searchCityQuery, cities, loading, password, score, createUser } = setupRegister();
 </script>
 
 <style src="./index.scss" lang="scss"></style>
