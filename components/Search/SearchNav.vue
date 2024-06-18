@@ -9,10 +9,8 @@
                 v-model="searchForm.city"
                 :search-input.sync="searchCityQuery"
                 :items="cities"
-                item-text="formatted_address"
-                item-value="formatted_address"
+                item-text="cityName"
                 label="Where"
-                placeholder="Search city..."
                 :loading="loading.city"
               />
             </v-col>
@@ -91,6 +89,7 @@
 
       <v-row>
         <v-col cols="12">
+          <pre>{{ searchForm }}</pre>
         </v-col>
       </v-row>
     </v-container>

@@ -26,7 +26,8 @@ export function setupSearchComponent() {
       loading.city = true;
       const response = await fetch(url);
       const data = await response.json();
-      cities.value = data.results;
+      console.log("RESPONSE ", data)
+      cities.value = data;
       loading.city = false;
     } catch (error) {
       console.error('Помилка при пошуку місця:', error);

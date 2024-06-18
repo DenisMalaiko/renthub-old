@@ -1,8 +1,10 @@
+import {City} from "~/models/City";
+
 export class User {
   name: string;
   login: string;
   email: string;
-  city: string;
+  city: City;
   password: string;
   repeatPassword?: string;
 
@@ -10,7 +12,7 @@ export class User {
     this.name = "";
     this.login = "";
     this.email = "";
-    this.city = "";
+    this.city = new City();
     this.password = "";
     this.repeatPassword = "";
   }
