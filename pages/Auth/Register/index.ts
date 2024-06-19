@@ -88,33 +88,25 @@ export function setupRegister() {
     }
 
     console.log("VALID")
+    console.log(signUpForm)
 
-    const requestBody = {
-      query: `
-        mutation {
-          createUser(userInput: {
-            name: "${signUpForm.name}",
-            login: "${signUpForm.login}",
-            email: "${signUpForm.email}",
-            city: {
-              cityId: "${signUpForm.city.cityId}",
-              cityName: "${signUpForm.city.cityId}",
-              cityFullName: "${signUpForm.city.cityFullName}"
-            },
-            password: "${signUpForm.password}",
-          })
-        }
-      `
-    }
+    const requestBody = { query: `mutation { createUser(userInput: { name: "${signUpForm.name}", login: "${signUpForm.login}", email: "${signUpForm.email}", city: { cityId: "${signUpForm.city.cityId}", cityName: "${signUpForm.city.cityName}", cityFullName: "${signUpForm.city.cityFullName}" }, password: "${signUpForm.password}" }) { _id email } }` };
 
     try {
-      await fetch('http://localhost:8080/graphql', {
+      const response = await fetch('http://localhost:8080/graphql', {
         method: "POST",
         body: JSON.stringify(requestBody),
         headers: {
           'Content-Type': 'application/json',
         }
       })
+
+      const responseData = await response.json();
+      console.log("RESPONSE DATA", responseData);
+
+      if (!response.ok) {
+        throw new Error(responseData.errors ? responseData.errors.map((e: any) => e.message).join(', ') : 'Unknown error');
+      }
 
     } catch (err: any) {
       console.log("ERROR ", err.message)
