@@ -7,6 +7,8 @@ export function setupRegister() {
   const searchCityQuery = ref('');
   let cities: any = ref([]);
 
+  const toastAlertRef = ref();
+
   const loading = reactive({
     city: false
   });
@@ -108,6 +110,11 @@ export function setupRegister() {
         throw new Error(responseData.errors ? responseData.errors.map((e: any) => e.message).join(', ') : 'Unknown error');
       }
 
+      toastAlertRef.value.open({
+        status: "success",
+        message: "User has been successfully created!"
+      });
+
     } catch (err: any) {
       console.log("ERROR ", err.message)
     }
@@ -122,6 +129,7 @@ export function setupRegister() {
   return {
     signUpFormRef,
     signUpForm,
+    toastAlertRef,
     rules,
     searchCityQuery,
     cities,

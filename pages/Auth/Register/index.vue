@@ -87,13 +87,16 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <ToastAlert ref="toastAlertRef"/>
   </section>
 </template>
 
 <script setup>
+import ToastAlert from "~/components/Toast/ToastAlert.vue";
 import { setupRegister } from "./index.ts";
 
-const { signUpFormRef, signUpForm, rules, searchCityQuery, cities, loading, password, score, createUser } = setupRegister();
+const { signUpFormRef, signUpForm, toastAlertRef, rules, searchCityQuery, cities, loading, password, score, createUser } = setupRegister();
 </script>
 
 <style src="./index.scss" lang="scss"></style>
